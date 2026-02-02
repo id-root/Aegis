@@ -1,4 +1,4 @@
-# Project Aegis:
+# Aegis
 
 Project Aegis is a  forensic defense and analysis framework implemented in Rust. It utilizes advanced cryptographic, optical, and signal processing techniques to identify, verify, and sanitize digital assets.
 
@@ -58,3 +58,9 @@ aegis-cli vault init --path ./cases.db
 aegis-cli vault log --path ./cases.db --action "Opened Case #9023"
 ```
 *For full usage check:* [Usage file](USAGE.md)
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
