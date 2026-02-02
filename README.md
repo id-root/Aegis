@@ -57,4 +57,4 @@ aegis-cli vault init --path ./cases.db
 # Log secure action
 aegis-cli vault log --path ./cases.db --action "Opened Case #9023"
 ```
-*For full usage check:* (Usage file)[USAGE.md]
+*For full usage check:* [Usage file](USAGE.md)
