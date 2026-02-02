@@ -1,0 +1,15 @@
+[package]
+name = "aegis-metadata"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+byteorder = "1.5"
+chrono = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+kamadak-exif = "0.5"
+[features]
+verification = [] # Useful crate for parsing standard EXIF, we'll extend it
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }

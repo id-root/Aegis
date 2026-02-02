@@ -1,0 +1,27 @@
+[package]
+name = "cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+core_engine = { path = "../core_engine" }
+privacy_defense = { path = "../privacy_defense" }
+clap = { version = "4.5", features = ["derive"] }
+aegis-crypto = { path = "../libs/aegis-crypto" }
+aegis-forensics = { path = "../libs/aegis-forensics" }
+aegis-threat-detect = { path = "../libs/aegis-threat-detect" }
+aegis-optics = { path = "../libs/aegis-optics" }
+aegis-metadata = { path = "../libs/aegis-metadata" }
+aegis-defense = { path = "../libs/aegis-defense" }
+aegis-runtime = { path = "../libs/aegis-runtime" }
+aegis-neuron = { path = "../libs/aegis-neuron" }
+aegis-vault = { path = "../libs/aegis-vault" }
+aegis-echo = { path = "../libs/aegis-echo" }
+aegis-vision = { path = "../libs/aegis-vision" }
+aegis-chameleon = { path = "../libs/aegis-chameleon" }
+aegis-oracle = { path = "../libs/aegis-oracle" }
+anyhow = "1.0"
+image = "0.24"
+tokio = { version = "1.0", features = ["full"] }
+actix = "0.13"
+textplots = "0.8.7"

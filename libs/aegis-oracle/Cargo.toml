@@ -1,0 +1,12 @@
+[package]
+name = "aegis-oracle"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+candle-core = "0.8.0"
+candle-nn = "0.8.0"
+anyhow = "1.0"
+log = "0.4"
+tract-onnx = "0.21"
+tract-core = "0.21"

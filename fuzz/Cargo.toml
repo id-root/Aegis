@@ -1,0 +1,18 @@
+[package]
+name = "aegis-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+aegis-metadata = { path = "../libs/aegis-metadata" }
+
+[[bin]]
+name = "metadata_parser"
+path = "fuzz_targets/metadata_parser.rs"
+test = false
+doc = false

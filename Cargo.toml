@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "core_engine",
+    "privacy_defense",
+    "cli", "libs/aegis-crypto", "libs/aegis-forensics", "libs/aegis-threat-detect",
+    "libs/aegis-optics", "libs/aegis-metadata", "libs/aegis-defense",
+    "libs/aegis-runtime", "libs/aegis-neuron", "libs/aegis-vault", "libs/aegis-echo", "libs/aegis-vision", "libs/aegis-chameleon", "libs/aegis-oracle",
+    "fuzz",
+]
+resolver = "2"
