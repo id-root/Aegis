@@ -1,0 +1,47 @@
+name: Sentinel
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --verbose --workspace
+      - name: Run tests
+        run: cargo test --verbose --workspace
+
+  kani:
+    name: Formal Verification (Kani)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Kani
+        run: |
+          cargo install --locked kani-verifier
+          cargo kani setup
+      - name: Verify Metadata Parsers
+        # Only run verification on the metadata crate
+        run: cargo kani -p aegis-metadata
+    
+  fuzz-check:
+    name: Build Fuzz Targets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install nightly toolchain
+        run: |
+          rustup install nightly
+          rustup default nightly
+      - name: Install cargo-fuzz
+        run: cargo install cargo-fuzz
+      - name: Check Fuzz Target Build
+        run: cargo build --manifest-path fuzz/Cargo.toml
