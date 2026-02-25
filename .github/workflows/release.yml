@@ -35,7 +35,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libvips-dev libopencv-dev
+          sudo apt-get install -y libjpeg-dev zlib1g-dev
 
       - name: Install Python dependencies
         run: |
