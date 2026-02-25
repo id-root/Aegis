@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-security"
+version = "0.1.0"
+description = "Forensic-grade, AI-free image security, integrity verification, and manipulation CLI platform."
+authors = [{name = "Antigravity", email = "antigravity@test.com"}]
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "colorama>=0.4.6",
+    "Pillow>=10.0.0",
+    "numpy>=1.24.0",
+    "opencv-python-headless>=4.8.0.76",
+    "cryptography>=41.0.0",
+    "pycryptodome>=3.18.0",
+    "argon2-cffi>=23.1.0",
+    "jpegio>=0.2.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black",
+    "isort",
+    "mypy"
+]
+backends = [
+    "pyvips>=2.2.0; platform_system != 'Windows'",
+]
+
+[project.scripts]
+aegis = "aegis.main:cli"
+
+[tool.setuptools.packages.find]
+include = ["aegis*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
