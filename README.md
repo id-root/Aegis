@@ -15,8 +15,7 @@ pip install -e .
 
 > **Note:** System-level dependencies like `libvips` and `libopencv` may be required depending on your platform.
 
-### Pre-built Binary (Linux)
-Download the latest pre-built binary from the [Releases page](../../releases) — no Python installation required.
+
 
 ```bash
 chmod +x aegis
