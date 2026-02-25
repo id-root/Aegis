@@ -45,6 +45,8 @@ jobs:
 
       - name: Build binary with PyInstaller
         run: |
+          AEGIS_SCRIPT=$(python -c "import shutil; print(shutil.which('aegis'))")
+          echo "Using entry point: $AEGIS_SCRIPT"
           pyinstaller \
             --onefile \
             --name aegis \
@@ -52,7 +54,15 @@ jobs:
             --collect-all cv2 \
             --hidden-import argon2 \
             --hidden-import Crypto \
-            aegis/main.py
+            --hidden-import aegis.offensive \
+            --hidden-import aegis.offensive.crypto \
+            --hidden-import aegis.offensive.algorithms \
+            --hidden-import aegis.offensive.algorithms.f5_stego \
+            --hidden-import aegis.offensive.algorithms.adaptive \
+            --hidden-import aegis.processing.core_ops \
+            --hidden-import aegis.processing.filters \
+            --hidden-import aegis.security.sanitization \
+            "$AEGIS_SCRIPT"
         shell: bash
 
       - name: Rename built binary to platform-specific name
