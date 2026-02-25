@@ -3,7 +3,7 @@ name: Build and Release Binary
 on:
   push:
     tags:
-      - "v*.*.*"   # Triggers on version tags like v1.0.0, v0.2.1, etc.
+      - "v*"   # Triggers on any version tag like v1.0.0, v0.2.1, etc.
 
 permissions:
   contents: write   # Required to create a release and upload assets
@@ -12,6 +12,7 @@ jobs:
   build:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       matrix:
         include:
@@ -40,20 +41,20 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install .
           pip install pyinstaller pycryptodome argon2-cffi jpegio
 
       - name: Build binary with PyInstaller
         run: |
-          AEGIS_SCRIPT=$(python -c "import shutil; print(shutil.which('aegis'))")
-          echo "Using entry point: $AEGIS_SCRIPT"
           pyinstaller \
             --onefile \
             --name aegis \
             --collect-all jpegio \
             --collect-all cv2 \
+            --collect-all aegis \
             --hidden-import argon2 \
             --hidden-import Crypto \
+            --hidden-import aegis.main \
             --hidden-import aegis.offensive \
             --hidden-import aegis.offensive.crypto \
             --hidden-import aegis.offensive.algorithms \
@@ -62,7 +63,17 @@ jobs:
             --hidden-import aegis.processing.core_ops \
             --hidden-import aegis.processing.filters \
             --hidden-import aegis.security.sanitization \
-            "$AEGIS_SCRIPT"
+            --hidden-import aegis.analysis.metadata \
+            --hidden-import aegis.analysis.steganography \
+            --hidden-import aegis.analysis.authenticity \
+            --hidden-import aegis.analysis.binary \
+            --hidden-import aegis.core.image_object \
+            --hidden-import aegis.core.signing \
+            --hidden-import aegis.core.pipeline \
+            --hidden-import aegis.core.audit \
+            --hidden-import aegis.core.hashing \
+            --hidden-import aegis.reporting.reports \
+            $(which aegis)
         shell: bash
 
       - name: Rename built binary to platform-specific name
@@ -109,7 +120,7 @@ jobs:
             | Linux (x86_64) | `aegis-linux-x86_64` |
             | Windows (x86_64) | `aegis-windows-x86_64.exe` |
 
-            **Linux/macOS usage:**
+            **Linux usage:**
             ```bash
             chmod +x aegis-linux-x86_64
             ./aegis-linux-x86_64 --help
