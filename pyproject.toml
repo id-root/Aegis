@@ -15,7 +15,6 @@ dependencies = [
     "Pillow>=10.0.0",
     "numpy>=1.24.0",
     "opencv-python-headless>=4.8.0.76",
-    "pyvips>=2.2.0; platform_system != 'Windows'",
     "cryptography>=41.0.0",
 ]
 
@@ -26,6 +25,9 @@ dev = [
     "black",
     "isort",
     "mypy"
+]
+backends = [
+    "pyvips>=2.2.0; platform_system != 'Windows'",
 ]
 
 [project.scripts]
