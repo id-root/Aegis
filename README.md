@@ -1,6 +1,6 @@
-# AEGIS: Forensic Image Security Platform
+# AEGIS: Forensic Image analysis Platform
 
-AEGIS is a forensic-grade, AI-free image security, integrity verification, and manipulation CLI platform. It provides a suite of tools for deep image analysis, metadata sanitization, deterministic processing, binary structure inspection, cryptographic verification, and advanced offensive steganography — all with no machine learning dependencies.
+AEGIS is a forensic-grade, integrity verification, and manipulation CLI platform. It provides a suite of tools for deep image analysis, metadata sanitization, deterministic processing, binary structure inspection, cryptographic verification, and advanced offensive steganography — all with no machine learning dependencies.
 
 ---
 
