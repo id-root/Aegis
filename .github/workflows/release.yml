@@ -1,0 +1,118 @@
+name: Build and Release Binary
+
+on:
+  push:
+    tags:
+      - "v*.*.*"   # Triggers on version tags like v1.0.0, v0.2.1, etc.
+
+permissions:
+  contents: write   # Required to create a release and upload assets
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            artifact_name: aegis
+            asset_name: aegis-linux-x86_64
+          - os: windows-latest
+            artifact_name: aegis.exe
+            asset_name: aegis-windows-x86_64.exe
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system dependencies (Linux only)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libvips-dev libopencv-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pyinstaller pycryptodome argon2-cffi jpegio
+
+      - name: Build binary with PyInstaller
+        run: |
+          pyinstaller \
+            --onefile \
+            --name aegis \
+            --collect-all jpegio \
+            --collect-all cv2 \
+            --hidden-import argon2 \
+            --hidden-import Crypto \
+            aegis/main.py
+        shell: bash
+
+      - name: Rename built binary to platform-specific name
+        shell: bash
+        run: |
+          mv dist/${{ matrix.artifact_name }} dist/${{ matrix.asset_name }}
+
+      - name: Upload binary as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset_name }}
+          path: dist/${{ matrix.asset_name }}
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build   # Wait for all build jobs to succeed
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Create GitHub Release and upload binaries
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "AEGIS ${{ github.ref_name }}"
+          body: |
+            ## AEGIS ${{ github.ref_name }}
+
+            Forensic-grade image security, steganography, and analysis platform.
+
+            ### Pre-built Binaries
+
+            Download the binary for your platform below — **no Python required**.
+
+            | Platform | File |
+            |---|---|
+            | Linux (x86_64) | `aegis-linux-x86_64` |
+            | Windows (x86_64) | `aegis-windows-x86_64.exe` |
+
+            **Linux/macOS usage:**
+            ```bash
+            chmod +x aegis-linux-x86_64
+            ./aegis-linux-x86_64 --help
+            ```
+
+            **Windows usage:**
+            ```
+            aegis-windows-x86_64.exe --help
+            ```
+          files: |
+            dist/aegis-linux-x86_64/aegis-linux-x86_64
+            dist/aegis-windows-x86_64.exe/aegis-windows-x86_64.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
