@@ -1,0 +1,53 @@
+# ====================
+# Python
+# ====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ====================
+# Virtual Environment
+# ====================
+venv/
+.venv/
+env/
+ENV/
+
+# ====================
+# Build & Distribution
+# ====================
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+
+# ====================
+# Testing
+# ====================
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ====================
+# Type checking
+# ====================
+.mypy_cache/
+
+# ====================
+# IDE / Editor
+# ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ====================
+# OS generated files
+# ====================
+.DS_Store
+Thumbs.db
+desktop.ini
