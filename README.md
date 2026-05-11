@@ -268,8 +268,6 @@ aegis shred --passes 3 sensitive_evidence.raw
 ---
 
 ## Security Architecture
-
-- **Zero AI/ML dependencies** — all analysis is deterministic and rule-based.
 - **AES-256-GCM** authenticated encryption for all embedded payloads.
 - **Argon2id** key derivation (memory-hard, resistant to GPU brute-force).
 - **HMAC-SHA256 & Ed25519** for cryptographic signing and tamper detection.
